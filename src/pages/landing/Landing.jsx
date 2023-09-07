@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Header from "../../shared/components/Header";
 import Login from "../login/Login";
 import Signup from "../signup/Signup";
-import bookpages from "../../shared/decorations/bookshelf.jpg";
+import bookshelf from "../../shared/decorations/bookshelf.jpg";
 import { Button } from "@mui/material";
 
 export default function Landing() {
@@ -22,7 +22,7 @@ export default function Landing() {
         <div className="box a">
           Welcome to Your Bookshelf
           <br />
-          <img src={bookpages} alt="wall of pages" />
+          <img src={bookshelf} alt="wall of pages" />
         </div>
         <div className="box b">
           Login/Signup

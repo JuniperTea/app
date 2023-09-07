@@ -108,6 +108,7 @@
 .book-author {
   border: 1px solid blue;
   width: 20%;
+  overflow: scroll;
 }
 .book-description-list {
   border: 1px solid green;
@@ -166,6 +167,61 @@
   background-image: linear-gradient(to right, #9796f0, #fbc7d4);
 }
 
+.popupContainer {
+  background-color: rgba(0, 0, 0, 0.2);
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+}
+.popupBody {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  height: 500px;
+  background: rgb(237, 243, 206);
+  /* color: white; */
+  z-index: 10;
+  border-radius: 16px;
+  box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.04);
+}
+.popupHeader {
+  height: 50px;
+  background: white;
+  overflow: hidden;
+  /* border-top-left-radius: 16px;
+  border-top-right-radius: 16px; */
+  margin: 0;
+  padding: 5px;
+  color: #2c3e50;
+  font-weight: 300;
+  font-size: 16px;
+  text-align: center;
+}
+.popup-details-container {
+  display: flex;
+  gap: 10px;
+  justify-content: space-evenly;
+  text-align: left;
+  padding: 3px;
+  margin-bottom: 3px;
+  overflow: hidden;
+}
+.popupLeftDetails {
+  width: 240px;
+  overflow-y: scroll;
+  height: 170px;
+}
+.popupRightDetails {
+  width: 240px;
+  overflow-y: scroll;
+  height: 170px;
+}
 .comments,
 .friend-list,
 .friend-recommendations {
@@ -247,4 +303,15 @@ body {
 .e {
   grid-column: col / span 4;
   grid-row: row 3;
+}
+
+.google-page-overview {
+  background-color: darkgreen;
+}
+
+.google-page-title {
+  position: absolute;
+  top: 10px;
+  right: 150px;
+  text-align: center;
 }

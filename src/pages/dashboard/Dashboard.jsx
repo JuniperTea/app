@@ -1,13 +1,13 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import BookList from "../bookshelf/BookList";
+import LocalBookList from "../books/LocalBookList";
 
 export default function Dashboard() {
   const navigate = useNavigate();
   console.log("opening dashboard");
-  function addBook() {
-    console.log("yes I clicked the button");
-    navigate("/add-books");
+
+  function lookupGoogleBooks() {
+    navigate("/google-lookup");
   }
 
   return (
@@ -20,11 +20,11 @@ export default function Dashboard() {
         <div className="library">
           <div className="library-title">
             My Library
-            <button className="add-book-btn" onClick={addBook}>
-              +
-            </button>
+            <br />
+            <p>Grab a Google Book</p>
           </div>
-          <BookList />
+          <button onClick={lookupGoogleBooks}>Google</button>
+          <LocalBookList />
         </div>
       </div>
     </div>

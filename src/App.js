@@ -3,8 +3,11 @@ import Landing from "./pages/landing/Landing";
 import "./App.css";
 import Dashboard from "./pages/dashboard/Dashboard";
 import ProtectedRoute from "./shared/components/ProtectedRoute";
-import AddBook from "./pages/bookshelf/AddBook";
-import BookView from "./pages/bookshelf/BookView";
+import GoogleLookup from "./pages/books/GoogleLookup";
+
+// import AddBook from "./pages/bookshelf/AddBook";
+// import BookView from "./pages/bookshelf/BookView";
+
 function App() {
   return (
     <div className="App body">
@@ -18,8 +21,16 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route path="/add-books" element={<AddBook />} />
-        <Route path="/book-view" element={<BookView />} />
+        <Route
+          path="/google-lookup"
+          element={
+            <ProtectedRoute>
+              <GoogleLookup />
+            </ProtectedRoute>
+          }
+        />
+        {/* <Route path="/add-books" element={<AddBook />} />
+        <Route path="/book-view" element={<BookView />} /> */}
         <Route path="/" element={<Navigate to={"/landing"} />} />
       </Routes>
     </div>

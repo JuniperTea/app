@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import { commonPostJson } from "../../shared/utils/api-helper.js";
-import FileUpload from "../../shared/components/FileUpload";
 
 export default function Signup() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [avatar, setAvatarFileName] = useState("");
 
   function signup() {
     let data = { username, password };
@@ -15,13 +13,11 @@ export default function Signup() {
       setUsername("");
     });
   }
-  function fileUploaded(filename) {
-    setAvatarFileName(filename);
-  }
   return (
     <div>
       <h1>Signup</h1>
-      <FileUpload onUpload={fileUploaded} />
+      <br />
+      <br />
       <input
         value={username}
         onChange={e => setUsername(e.target.value)}

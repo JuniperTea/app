@@ -33,7 +33,7 @@ export default function Login() {
   function login() {
     setIsLoggingIn(true);
     console.log("in login function");
-    commonGetJson("/landing/", { username: username, password: password }).then(
+    commonGetJson("/login", { username: username, password: password }).then(
       x => {
         setIsLoggingIn(false);
         console.log("in login function2");
