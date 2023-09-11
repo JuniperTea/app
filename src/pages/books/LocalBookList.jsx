@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import LocalBookItem from "./LocalBookItem.jsx";
 import { commonGetJson } from "../../shared/utils/api-helper.js";
-// import Spinner from "../../shared/components/Spinner";
+import Spinner from "../../shared/components/Spinner";
 import { Pagination } from "@mui/material";
 
 export default function LocalBookList() {
@@ -32,18 +32,27 @@ export default function LocalBookList() {
       });
   }
 
-  console.log("inside local book list");
   return (
     <div>
-      {bookList.length > 0 ? (
-        <div style={{ overflow: "auto", maxHeight: 800 }}>
-          <Pagination page={page} count={totalPages} onChange={handleChange} />
-          {bookList.map(x => (
-            <LocalBookItem key={x.id} data={x} />
-          ))}
-        </div>
+      {loading ? (
+        <Spinner />
       ) : (
-        <span>Go Google a Book!</span>
+        <div>
+          {bookList.length > 0 ? (
+            <div style={{ overflow: "auto", maxHeight: 800 }}>
+              <Pagination
+                page={page}
+                count={totalPages}
+                onChange={handleChange}
+              />
+              {bookList.map(x => (
+                <LocalBookItem key={x.id} data={x} />
+              ))}
+            </div>
+          ) : (
+            <span>Go Google a Book!</span>
+          )}
+        </div>
       )}
     </div>
   );

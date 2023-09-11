@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { commonGetJson } from "../../shared/utils/api-helper.js";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllFriends, deleteFriend } from "../../data/friendSlice.js";
 import Spinner from "../../shared/components/Spinner";
 import FriendItem from "./FriendItem.jsx";
 
@@ -7,36 +8,40 @@ export default function FriendList() {
   const [friendList, setFriendList] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  const dispatch = useDispatch();
+
+  const { friends, areFriendsBeingFetched } = useSelector(
+    state => state.friends
+  );
+
   useEffect(() => {
-    getData();
-    console.log(friendList);
+    getFriends();
   }, []);
 
-  function getData() {
-    setLoading(true);
-    console.log("getting book data");
-    commonGetJson("/friends")
-      .then(x => {
-        setFriendList(x);
-        console.log("inside friendList");
-        console.log(x);
-        //setTotalPages(x.totalPages);
-      })
-      .finally(() => {
-        console.log(friendList);
-        setLoading(false);
-      });
+  function getFriends() {
+    dispatch(getAllFriends());
   }
+  function deleteFriend(_id) {
+    // if (window.confirm("Are you sure want to delete this note?")) {
+    // }
+    dispatch(deleteFriend(_id));
+  }
+  function getMoreFriends() {}
+
   return (
     <div>
-      {friendList.length > 0 ? (
-        friendList.map(x => (
-          <div>
-            <FriendItem data={x} />
-          </div>
+      <h1>Friends List</h1>
+      <button onClick={getFriends}>Refresh</button>
+      <button onClick={getMoreFriends}>Add Friends</button>
+      <hr />
+      {areFriendsBeingFetched ? (
+        <Spinner />
+      ) : friends.length > 0 ? (
+        friends.map(x => (
+          <FriendItem key={x.id} data={x} deleteFriend={deleteFriend} />
         ))
       ) : (
-        <span>Add a book already!</span>
+        <span>You Have no Friends</span>
       )}
     </div>
   );

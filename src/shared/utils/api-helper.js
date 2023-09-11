@@ -47,3 +47,15 @@ export function commonRawPost(url, data) {
     body: data,
   }).then(x => x.json());
 }
+
+export function commonPatchJson(url, data, customHeaders) {
+  return fetch(getBackendUrl() + url, {
+    headers: {
+      ...customHeaders,
+      token: localStorage.getItem("token"),
+      "Content-Type": "application/json",
+    },
+    method: "PATCH",
+    body: JSON.stringify(data),
+  }).then(x => x.json());
+}

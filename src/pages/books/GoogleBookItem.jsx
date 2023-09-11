@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SaveAltIcon from "@mui/icons-material/SaveAlt";
 import { Tooltip } from "@mui/material";
@@ -7,6 +7,7 @@ import defaultBook from "../../shared/decorations/favicon.ico";
 import PropTypes from "prop-types";
 
 export default function GoogleBookItem({ data }) {
+  const [saved, setSaved] = useState(false);
   const { id = "" } = data;
   const {
     title = "",
@@ -22,6 +23,7 @@ export default function GoogleBookItem({ data }) {
     maturityRating = "",
   } = data.volumeInfo;
   const { smallThumbnail = "" } = data.volumeInfo?.imageLinks;
+  const currentlyReading = false;
 
   const handleClick = () => {
     let saveBook = {
@@ -38,10 +40,12 @@ export default function GoogleBookItem({ data }) {
       smallThumbnail,
       id,
       industryIdentifiers,
+      currentlyReading,
     };
     commonPostJson("/books", saveBook).catch(e => {
       console.log(e);
     });
+    setSaved(true);
   };
   return (
     <div>
@@ -63,7 +67,11 @@ export default function GoogleBookItem({ data }) {
           Options
           <div>
             <Tooltip title="Save Local">
-              <SaveAltIcon fontSize="small" onClick={handleClick} />
+              {!saved ? (
+                <SaveAltIcon fontSize="small" onClick={handleClick} />
+              ) : (
+                <div>Saved</div>
+              )}
             </Tooltip>
           </div>
         </span>

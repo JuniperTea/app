@@ -1,6 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 
 export default function Popup({ setIsOpen, data }) {
+  const [currentlyReading, setCurrentlyReading] = useState(
+    data.currentlyReading
+  );
+  const oldCurrentReading = data.currentlyReading;
   let {
     _id,
     title,
@@ -17,6 +21,15 @@ export default function Popup({ setIsOpen, data }) {
     isbn,
   } = data;
 
+  const closeHandler = () => {
+    setIsOpen(false);
+    if (currentlyReading !== oldCurrentReading) {
+      <div>insert save here </div>;
+    }
+  };
+  const checkHandler = () => {
+    setCurrentlyReading(!currentlyReading);
+  };
   return (
     <>
       <div className="popupContainer">
@@ -47,7 +60,22 @@ export default function Popup({ setIsOpen, data }) {
               {description}
             </span>
           </div>
-          <button onClick={() => setIsOpen(false)}>Close</button>
+          <button onClick={closeHandler}>Close</button>
+
+          <input
+            type="checkbox"
+            id="checkbox"
+            checked={currentlyReading}
+            onChange={checkHandler}
+          />
+          <label htmlFor="checkbox">Currently Reading</label>
+          {/* <button onClick={() => setCurrentlyReading(!currentlyReading)}>
+            {currentlyReading ? (
+              <div>Currently Reading</div>
+            ) : (
+              <div>Not Currently Reading</div>
+            )}
+          </button> */}
         </div>
       </div>
     </>

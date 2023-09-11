@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import GoogleBookItem from "./GoogleBookItem";
 import { useNavigate } from "react-router-dom";
+import Spinner from "../../shared/components/Spinner";
 
 export default function GoogleLookup() {
   const [searchTerm, setSearchTerm] = useState("");
   const [bookList, setBookList] = useState([]);
   const navigate = useNavigate();
   const inputRef = useRef(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     let url =
@@ -17,7 +19,10 @@ export default function GoogleLookup() {
     if (searchTerm !== "" && searchTerm !== null) {
       searchBook(url)
         .then(res => setBookList(res))
-        .catch(error => console.log(error));
+        .catch(error => console.log(error))
+        .finally(() => {
+          setLoading(false);
+        });
       setSearchTerm("");
     }
   }, [searchTerm]);
@@ -27,6 +32,7 @@ export default function GoogleLookup() {
   }
 
   const searchBook = async url => {
+    setLoading(true);
     const response = await fetch(url).then(res => res.json());
     return response.items;
   };
@@ -47,12 +53,18 @@ export default function GoogleLookup() {
             <button onClick={handleClick}>Search</button>
           </div>
           <div>
-            {bookList !== null && bookList.length > 0 ? (
-              bookList.map((item, key) => (
-                <GoogleBookItem key={item.id} data={item} />
-              ))
+            {loading ? (
+              <Spinner />
             ) : (
-              <div>There is no return</div>
+              <div>
+                {bookList !== null && bookList.length > 0 ? (
+                  bookList.map((item, key) => (
+                    <GoogleBookItem key={item.id} data={item} />
+                  ))
+                ) : (
+                  <div>There is no return</div>
+                )}
+              </div>
             )}
           </div>
         </div>
