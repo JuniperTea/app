@@ -7,7 +7,7 @@ export default function Signup() {
 
   function signup() {
     let data = { username, password };
-    commonPostJson("/landing", data).then(x => {
+    commonPostJson("/login", data).then(x => {
       alert("Thank you! your account is created.");
       setPassword("");
       setUsername("");

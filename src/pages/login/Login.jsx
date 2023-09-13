@@ -36,20 +36,14 @@ export default function Login() {
     commonGetJson("/login", { username: username, password: password }).then(
       x => {
         setIsLoggingIn(false);
-        console.log("in login function2");
-        console.log({
-          Response: x,
-        });
         if (x.status === true) {
           // navigate user to dashboard page
           // store token in local storage
-          console.log("in login function3");
           localStorage.setItem("token", x.token);
           localStorage.setItem("isRememberMe", isRememberMe);
           navigate("/dashboard");
         } else {
           // clear all controls
-          console.log("in login function4");
           localStorage.clear();
           alert("Login failed!");
         }

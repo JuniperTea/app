@@ -3,7 +3,6 @@ export function getBackendUrl() {
 }
 
 export function commonGetJson(url, customHeaders) {
-  console.log("in api helper" + url);
   return fetch(getBackendUrl() + url, {
     headers: {
       ...customHeaders,
@@ -38,7 +37,6 @@ export function commonDeleteJson(url, customHeaders) {
 }
 
 export function commonRawPost(url, data) {
-  console.log("in api helper " + getBackendUrl() + url);
   if (data) {
     console.log("data exists");
   }

@@ -32,7 +32,7 @@ const friendSlice = createSlice({
     });
     builder.addCase(getAllFriends.fulfilled, (state, action) => {
       state.areFriendsLoading = false;
-      state.posts = [...action.payload];
+      state.friends = [state.friends, ...action.payload];
     });
     builder.addCase(getAllFriends.rejected, (state, action) => {
       state.areFriendsLoading = false;

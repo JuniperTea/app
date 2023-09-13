@@ -29,13 +29,6 @@ export default function Header() {
       <h1 className="header-title">My Bookshelf</h1>
       {(userName !== null) & (userName !== "") ? (
         <>
-          <div className="header-app-name">
-            <a href="/profile">Profile</a>
-            {/* <a href="/notes">Notes</a>
-            <a href="/books-list">Books</a>
-            <a href="/posts-list">Timeline</a> */}
-          </div>
-
           <div className="header-user-info">
             <div>
               <span>

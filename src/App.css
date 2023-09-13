@@ -183,6 +183,30 @@
 .friend-recommendations {
   grid-area: friend-recommendations;
 }
+.item-popup-body {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  height: 500px;
+  background: rgb(238, 213, 177);
+  padding: 10px;
+  /* color: white; */
+  z-index: 10;
+  border-radius: 16px;
+  box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.04);
+}
+.user-item {
+  display: inline;
+  border-bottom: rgb(27, 32, 37);
+
+  padding: 20px;
+  margin-left: 20px;
+  height: 20px;
+  width: 100%;
+  text-align: left;
+}
 .library {
   grid-area: library;
   border-radius: 7px;
