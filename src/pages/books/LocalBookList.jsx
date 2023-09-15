@@ -2,29 +2,21 @@ import React, { useEffect, useState } from "react";
 import LocalBookItem from "./LocalBookItem.jsx";
 import { commonGetJson } from "../../shared/utils/api-helper.js";
 import Spinner from "../../shared/components/Spinner";
-import { Pagination } from "@mui/material";
 
 export default function LocalBookList() {
   const [bookList, setBookList] = useState([]);
-  const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     getData();
   }, []);
 
-  function handleChange(event, value) {
-    setPage(value);
-    getData(value);
-  }
-
+  //get book data from the library for current user
   function getData() {
     setLoading(true);
-    commonGetJson("/books?page=" + page)
+    commonGetJson("/books")
       .then(x => {
-        setBookList(x.data);
-        setTotalPages(x.totalPages);
+        setBookList(x);
       })
       .catch(e => console.log(e))
       .finally(() => {
@@ -38,15 +30,12 @@ export default function LocalBookList() {
         <Spinner />
       ) : (
         <div>
-          {bookList.length > 0 ? (
-            <div style={{ overflow: "auto", maxHeight: 800 }}>
-              <Pagination
-                page={page}
-                count={totalPages}
-                onChange={handleChange}
-              />
+          {bookList && bookList.length > 0 ? (
+            <div style={{ overflow: "auto" }}>
               {bookList.map(x => (
-                <LocalBookItem key={x.id} data={x} />
+                <div key={x.id}>
+                  <LocalBookItem data={x} />
+                </div>
               ))}
             </div>
           ) : (

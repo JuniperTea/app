@@ -1,7 +1,10 @@
 import React, { useState } from "react";
-import { commonDeleteJson } from "../../shared/utils/api-helper";
+import {
+  commonDeleteJson,
+  commonPostJson,
+} from "../../shared/utils/api-helper";
 import RecommendSharpIcon from "@mui/icons-material/RecommendSharp";
-import AutoStoriesSharpIcon from "@mui/icons-material/AutoStoriesSharp";
+
 import DeleteForeverSharpIcon from "@mui/icons-material/DeleteForeverSharp";
 import { Tooltip } from "@mui/material";
 import Popup from "./Popup";
@@ -9,22 +12,7 @@ import Popup from "./Popup";
 export default function LocalBookItem({ data }) {
   const [isOpen, setIsOpen] = useState(false);
 
-  let {
-    _id,
-    title,
-    description,
-    authors,
-    categories,
-    language,
-    pageCount,
-    printType,
-    publisher,
-    publishedDate,
-    maturityRating,
-    smallThumbnail,
-    id,
-    isbn,
-  } = data;
+  let { _id, title, description, authors, smallThumbnail } = data;
 
   function handleClick() {
     console.log("handleclick");
@@ -36,6 +24,11 @@ export default function LocalBookItem({ data }) {
     if (window.confirm("you sure?")) {
       commonDeleteJson("/books/" + _id).catch(e => console.log(e));
     }
+  }
+
+  function recommendBook() {
+    let saveRec = { _id };
+    commonPostJson("/recommendations", saveRec).catch(e => console.log(e));
   }
 
   return (
@@ -56,11 +49,8 @@ export default function LocalBookItem({ data }) {
         <span>
           Options
           <div>
-            <Tooltip title="Currently Reading">
-              <AutoStoriesSharpIcon fontSize="small" />
-            </Tooltip>
             <Tooltip title="Recommend">
-              <RecommendSharpIcon fontSize="small" />
+              <RecommendSharpIcon fontSize="small" onClick={recommendBook} />
             </Tooltip>
             <Tooltip title="Delete">
               <DeleteForeverSharpIcon fontSize="small" onClick={deleteBook} />

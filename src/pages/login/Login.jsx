@@ -32,9 +32,8 @@ export default function Login() {
 
   function login() {
     setIsLoggingIn(true);
-    console.log("in login function");
-    commonGetJson("/login", { username: username, password: password }).then(
-      x => {
+    commonGetJson("/login", { username: username, password: password })
+      .then(x => {
         setIsLoggingIn(false);
         if (x.status === true) {
           // navigate user to dashboard page
@@ -47,8 +46,8 @@ export default function Login() {
           localStorage.clear();
           alert("Login failed!");
         }
-      }
-    );
+      })
+      .catch(e => console.log(e));
   }
 
   return (

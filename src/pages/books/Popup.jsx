@@ -1,10 +1,14 @@
 import React, { useState } from "react";
+import { commonPatchJson, commonPostJson } from "../../shared/utils/api-helper";
 
 export default function Popup({ setIsOpen, data }) {
   const [currentlyReading, setCurrentlyReading] = useState(
     data.currentlyReading
   );
+  const [review, setReview] = useState("");
+  const [savedReview, setSavedReview] = useState(false);
   const oldCurrentReading = data.currentlyReading;
+
   let {
     _id,
     title,
@@ -21,27 +25,54 @@ export default function Popup({ setIsOpen, data }) {
     isbn,
   } = data;
 
+  //closes the popup, saves the currently reading value
   const closeHandler = () => {
     setIsOpen(false);
     if (currentlyReading !== oldCurrentReading) {
-      <div>insert save here </div>;
+      let saveCR = {
+        _id,
+        currentlyReading,
+      };
+      commonPatchJson("/current/" + _id, saveCR)
+        .then(console.log(currentlyReading))
+        .catch(e => console.log(e));
     }
   };
-  const checkHandler = () => {
+
+  //changes state of currently reading
+  function checkHandler() {
     setCurrentlyReading(!currentlyReading);
-  };
+  }
+
+  //when review is posted, this saves it to database
+  function handleSubmit() {
+    if (review !== null && review !== "") {
+      let saveReview = {
+        _id, //book id
+        review,
+      };
+      commonPostJson("/reviews", saveReview)
+        .then(response => {
+          if (response.success) {
+            setSavedReview(true);
+            console.log("successfully saved review");
+          }
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    }
+  }
   return (
     <>
       <div className="popupContainer">
+        <div className="popupHeader">
+          <h3>{title}</h3>
+        </div>
         <div className="popupBody">
-          <div>
-            <span>
-              <img src={smallThumbnail} alt="temporary alt" />
-            </span>
-            <span>
-              <h3>{title}</h3>
-            </span>
-          </div>
+          <span>
+            <img src={smallThumbnail} alt="temporary alt" />
+          </span>
           <div className="popup-details-container">
             <span className="popupLeftDetails">
               <h5>Tombstone</h5>
@@ -60,22 +91,32 @@ export default function Popup({ setIsOpen, data }) {
               {description}
             </span>
           </div>
-          <button onClick={closeHandler}>Close</button>
 
           <input
             type="checkbox"
-            id="checkbox"
-            checked={currentlyReading}
+            name="checkbox"
+            defaultChecked={currentlyReading}
             onChange={checkHandler}
           />
           <label htmlFor="checkbox">Currently Reading</label>
-          {/* <button onClick={() => setCurrentlyReading(!currentlyReading)}>
-            {currentlyReading ? (
-              <div>Currently Reading</div>
-            ) : (
-              <div>Not Currently Reading</div>
-            )}
-          </button> */}
+          <hr />
+          <label htmlFor="postReview">Post a Review</label>
+          <textarea
+            name="postReview"
+            value={review}
+            onChange={e => setReview(e.target.value)}
+            rows={4}
+            cols={40}
+          />
+          <hr />
+          <button type="reset">Cancel</button>
+          <button type="submit" onClick={handleSubmit}>
+            Save post
+          </button>
+          {savedReview ? <div>Review is Saved</div> : null}
+          <div>
+            <button onClick={closeHandler}>Close</button>
+          </div>
         </div>
       </div>
     </>
