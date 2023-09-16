@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 export default function ReadingPopup({ setIsOpen, data }) {
   let {
@@ -14,8 +15,9 @@ export default function ReadingPopup({ setIsOpen, data }) {
     publishedDate,
     maturityRating,
     smallThumbnail,
-    isbn,
-  } = data[0];
+    industryIdentifiers,
+    id,
+  } = data;
 
   function closeHandler() {
     setIsOpen(false);
@@ -31,6 +33,7 @@ export default function ReadingPopup({ setIsOpen, data }) {
             <span>
               <img src={smallThumbnail} alt="temporary alt" />
             </span>
+            <div>Authors: {title}</div>
             <div>Authors: {authors}</div>
             <div>Publisher: {publisher}</div>
             <div>Publish Date: {publishedDate}</div>
@@ -38,7 +41,7 @@ export default function ReadingPopup({ setIsOpen, data }) {
             <div>Pages: {pageCount}</div>
             <div>Format: {printType}</div>
             <div>Maturity Rating: {maturityRating}</div>
-            <div>ISBN: {isbn}</div>
+            <div>ISBN: {industryIdentifiers}</div>
             <div>Categories: {categories}</div>
           </div>
           <div>
@@ -49,3 +52,35 @@ export default function ReadingPopup({ setIsOpen, data }) {
     </>
   );
 }
+
+ReadingPopup.propTypes = {
+  title: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  authors: PropTypes.arrayOf(PropTypes.string).isRequired,
+  categories: PropTypes.arrayOf(PropTypes.string).isRequired,
+  language: PropTypes.string.isRequired,
+  pageCount: PropTypes.number.isRequired,
+  printType: PropTypes.string.isRequired,
+  publisher: PropTypes.string.isRequired,
+  publishedDate: PropTypes.string.isRequired,
+  maturityRating: PropTypes.string.isRequired,
+  smallThumbnail: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+  industryIdentifiers: PropTypes.arrayOf(PropTypes.string).isRequired,
+};
+
+ReadingPopup.defaultProps = {
+  title: "",
+  description: "",
+  authors: [],
+  categories: [],
+  language: "",
+  pageCount: 0,
+  printType: "",
+  publisher: "",
+  publishedDate: "",
+  maturityRating: "",
+  smallThumbnail: "",
+  id: "",
+  industryIdentifiers: [],
+};

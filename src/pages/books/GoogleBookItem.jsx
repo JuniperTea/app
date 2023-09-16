@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import SaveAltIcon from "@mui/icons-material/SaveAlt";
 import { Tooltip } from "@mui/material";
 import { commonPostJson } from "../../shared/utils/api-helper.js";
@@ -23,7 +22,6 @@ export default function GoogleBookItem({ data }) {
     maturityRating = "",
   } = data.volumeInfo;
   const { smallThumbnail = "" } = data.volumeInfo?.imageLinks;
-  const currentlyReading = false;
 
   const handleClick = () => {
     let saveBook = {
@@ -40,7 +38,6 @@ export default function GoogleBookItem({ data }) {
       smallThumbnail,
       id,
       industryIdentifiers,
-      currentlyReading,
     };
     commonPostJson("/books", saveBook).catch(e => {
       console.log(e);

@@ -1,16 +1,17 @@
 import React, { useState } from "react";
-import { commonPatchJson, commonPostJson } from "../../shared/utils/api-helper";
+import {
+  commonPostJson,
+  commonDeleteJson,
+} from "../../shared/utils/api-helper";
+import PropTypes from "prop-types";
 
 export default function Popup({ setIsOpen, data }) {
-  const [currentlyReading, setCurrentlyReading] = useState(
-    data.currentlyReading
-  );
+  const [currentlyReading, setCurrentlyReading] = useState(false);
   const [review, setReview] = useState("");
   const [savedReview, setSavedReview] = useState(false);
-  const oldCurrentReading = data.currentlyReading;
 
   let {
-    _id,
+    _id, //book main id
     title,
     description,
     authors,
@@ -22,22 +23,43 @@ export default function Popup({ setIsOpen, data }) {
     publishedDate,
     maturityRating,
     smallThumbnail,
-    isbn,
+    industryIdentifiers,
+    id,
   } = data;
 
   //closes the popup, saves the currently reading value
-  const closeHandler = () => {
-    setIsOpen(false);
-    if (currentlyReading !== oldCurrentReading) {
+  function closeHandler() {
+    if (currentlyReading === true) {
       let saveCR = {
-        _id,
-        currentlyReading,
+        _id, //bookID
+        title,
+        description,
+        authors,
+        categories,
+        language,
+        pageCount,
+        printType,
+        publisher,
+        publishedDate,
+        maturityRating,
+        smallThumbnail,
+        industryIdentifiers,
+        id,
       };
-      commonPatchJson("/current/" + _id, saveCR)
-        .then(console.log(currentlyReading))
-        .catch(e => console.log(e));
+      commonPostJson("/current", saveCR)
+        .then(response => {
+          if (response.success) {
+            console.log("successfully saved current reading");
+          }
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    } else {
+      commonDeleteJson("/current/" + _id).catch(e => console.log(e));
     }
-  };
+    setIsOpen(false);
+  }
 
   //changes state of currently reading
   function checkHandler() {
@@ -50,6 +72,10 @@ export default function Popup({ setIsOpen, data }) {
       let saveReview = {
         _id, //book id
         review,
+        title,
+        authors,
+        smallThumbnail,
+        pageCount,
       };
       commonPostJson("/reviews", saveReview)
         .then(response => {
@@ -83,7 +109,7 @@ export default function Popup({ setIsOpen, data }) {
               <div>Pages: {pageCount}</div>
               <div>Format: {printType}</div>
               <div>Maturity Rating: {maturityRating}</div>
-              <div>ISBN: {isbn}</div>
+              <div>ISBN: {industryIdentifiers}</div>
               <div>Categories: {categories}</div>
             </span>
             <span className="popupRightDetails">
@@ -122,3 +148,35 @@ export default function Popup({ setIsOpen, data }) {
     </>
   );
 }
+
+Popup.propTypes = {
+  title: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  authors: PropTypes.arrayOf(PropTypes.string).isRequired,
+  categories: PropTypes.arrayOf(PropTypes.string).isRequired,
+  language: PropTypes.string.isRequired,
+  pageCount: PropTypes.number.isRequired,
+  printType: PropTypes.string.isRequired,
+  publisher: PropTypes.string.isRequired,
+  publishedDate: PropTypes.string.isRequired,
+  maturityRating: PropTypes.string.isRequired,
+  smallThumbnail: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+  industryIdentifiers: PropTypes.arrayOf(PropTypes.string).isRequired,
+};
+
+Popup.defaultProps = {
+  title: "",
+  description: "",
+  authors: [],
+  categories: [],
+  language: "",
+  pageCount: 0,
+  printType: "",
+  publisher: "",
+  publishedDate: "",
+  maturityRating: "",
+  smallThumbnail: "",
+  id: "",
+  industryIdentifiers: [],
+};

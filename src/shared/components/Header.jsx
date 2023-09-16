@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 import jwtDecode from "jwt-decode";
 import { useNavigate } from "react-router-dom";
-import { Avatar } from "@mui/material";
 
 export default function Header() {
   const [userName, setUsername] = useState("");
-  const [avatar, setAvatar] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -13,7 +11,6 @@ export default function Header() {
     if (token) {
       let decoded = jwtDecode(token);
       setUsername(decoded.username);
-      setAvatar(decoded.avatar);
     }
   }, []);
 
@@ -31,15 +28,6 @@ export default function Header() {
         <>
           <div className="header-user-info">
             <div>
-              <span>
-                {avatar ? (
-                  <Avatar
-                    src={process.env.REACT_APP_BACKEND_URL + "/image/" + avatar}
-                  />
-                ) : (
-                  <Avatar>{userName?.charAt(0)}</Avatar>
-                )}
-              </span>
               <span>Welcome,</span>
               <span onClick={gotoProfile}>{userName}</span>
             </div>

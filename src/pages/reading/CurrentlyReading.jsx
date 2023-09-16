@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { commonGetJson, commonPatchJson } from "../../shared/utils/api-helper";
+import { commonDeleteJson, commonGetJson } from "../../shared/utils/api-helper";
 import ReadingItem from "./ReadingItem";
 import Spinner from "../../shared/components/Spinner";
 
@@ -22,17 +22,12 @@ export default function CurrentlyReading() {
       .finally(() => {
         setLoading(false);
       });
-    setLoading(false);
   }
 
   function deleteItem(_id) {
-    let currentlyReading = false;
-    let saveCR = {
-      _id,
-      currentlyReading,
-    };
-    commonPatchJson("/current/" + _id, saveCR).catch(e => console.log(e));
+    commonDeleteJson("/current/" + _id).catch(e => console.log(e));
   }
+
   return (
     <div>
       <h4>Currently Reading</h4>
@@ -47,7 +42,7 @@ export default function CurrentlyReading() {
           <div className="reading-item-line" key={x._id}>
             <ReadingItem key={x._id} data={x} />
             <span>
-              <button onClick={deleteItem(x._id)}>X</button>
+              <button onClick={() => deleteItem(x._id)}>X</button>
             </span>
           </div>
         ))

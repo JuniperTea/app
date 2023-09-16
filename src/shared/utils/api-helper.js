@@ -37,9 +37,6 @@ export function commonDeleteJson(url, customHeaders) {
 }
 
 export function commonRawPost(url, data) {
-  if (data) {
-    console.log("data exists");
-  }
   return fetch(getBackendUrl() + url, {
     method: "POST",
     body: data,

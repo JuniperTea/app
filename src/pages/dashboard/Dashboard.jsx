@@ -4,10 +4,10 @@ import LocalBookList from "../books/LocalBookList";
 import FriendList from "../friends/FriendList";
 import CurrentlyReading from "../reading/CurrentlyReading";
 import RecommendList from "../recommendations/RecommendList";
+import Reviews from "../reviews/Reviews";
 
 export default function Dashboard() {
   const navigate = useNavigate();
-  console.log("opening dashboard");
 
   function lookupGoogleBooks() {
     navigate("/google-lookup");
@@ -17,7 +17,9 @@ export default function Dashboard() {
     <div>
       <div className="dashboard-container">
         <div className="currently-reading">{<CurrentlyReading />}</div>
-        <div className="comments">Comments</div>
+        <div className="reviews">
+          <Reviews />
+        </div>
         <div className="friend-list">{<FriendList />}</div>
         <div className="friend-recommendations">
           <RecommendList />
@@ -25,11 +27,11 @@ export default function Dashboard() {
       </div>
       <div className="library">
         <div className="library-title">
-          My Library
-          <br />
+          <h4>My Library</h4>
           <p>Grab a Google Book</p>
+          <button onClick={lookupGoogleBooks}>Google</button>
         </div>
-        <button onClick={lookupGoogleBooks}>Google</button>
+
         <LocalBookList />
       </div>
     </div>

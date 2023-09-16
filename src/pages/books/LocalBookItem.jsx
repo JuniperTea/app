@@ -4,18 +4,18 @@ import {
   commonPostJson,
 } from "../../shared/utils/api-helper";
 import RecommendSharpIcon from "@mui/icons-material/RecommendSharp";
-
+import { useNavigate } from "react-router-dom";
 import DeleteForeverSharpIcon from "@mui/icons-material/DeleteForeverSharp";
 import { Tooltip } from "@mui/material";
 import Popup from "./Popup";
 
 export default function LocalBookItem({ data }) {
   const [isOpen, setIsOpen] = useState(false);
-
+  const [recommended, setRecommended] = useState(false);
   let { _id, title, description, authors, smallThumbnail } = data;
+  const navigate = useNavigate();
 
   function handleClick() {
-    console.log("handleclick");
     setIsOpen(true);
   }
 
@@ -23,11 +23,13 @@ export default function LocalBookItem({ data }) {
   function deleteBook() {
     if (window.confirm("you sure?")) {
       commonDeleteJson("/books/" + _id).catch(e => console.log(e));
+      navigate("/dashboard");
     }
   }
 
   function recommendBook() {
-    let saveRec = { _id };
+    let saveRec = { _id, title, description, authors, smallThumbnail };
+    setRecommended(true);
     commonPostJson("/recommendations", saveRec).catch(e => console.log(e));
   }
 
@@ -49,7 +51,7 @@ export default function LocalBookItem({ data }) {
         <span>
           Options
           <div>
-            <Tooltip title="Recommend">
+            <Tooltip title={recommended ? "Already Recommended" : "Recommend"}>
               <RecommendSharpIcon fontSize="small" onClick={recommendBook} />
             </Tooltip>
             <Tooltip title="Delete">

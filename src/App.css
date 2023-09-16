@@ -89,7 +89,7 @@
   border-right: 1px grey solid;
 }
 .header-user-info {
-  color: white;
+  color: rgb(214, 55, 55);
   text-decoration: none;
   flex: 2;
   justify-self: flex-end;
@@ -115,8 +115,12 @@
   float: right;
 }
 
+.bold-me {
+  font-weight: bold;
+}
 .book-item-container {
   display: flex;
+
   gap: 10px;
   justify-content: space-evenly;
   height: 50px;
@@ -136,6 +140,10 @@
 .book-description-list {
   border: 1px solid green;
   width: 50%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.book-description-general {
   overflow: hidden;
   text-overflow: ellipsis;
 }

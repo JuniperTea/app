@@ -3,6 +3,7 @@ import { commonGetJson } from "../../shared/utils/api-helper";
 import RecommendItem from "./RecommendItem";
 import Spinner from "../../shared/components/Spinner";
 
+//To fetch the recommendations and display them
 export default function RecommendList() {
   const [recList, setRecList] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -21,7 +22,6 @@ export default function RecommendList() {
       .finally(() => {
         setLoading(false);
       });
-    setLoading(false);
   }
 
   return (
@@ -35,8 +35,19 @@ export default function RecommendList() {
         </>
       ) : recList.length > 0 ? (
         recList.map(x => (
-          <div className="reading-item-line" key={x._id}>
-            <RecommendItem key={x._id} data={x} />
+          <div key={x._id}>
+            {x.recs.length > 0 ? (
+              <div>
+                <div className="bold-me">Friend: {x.friendName}</div>
+                <div>
+                  {x.recs.map(y => (
+                    <div className="reading-item-line" key={y._id}>
+                      <RecommendItem key={y._id} data={y} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : null}
           </div>
         ))
       ) : (
