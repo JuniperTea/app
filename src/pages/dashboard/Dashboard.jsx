@@ -25,6 +25,7 @@ export default function Dashboard() {
           <RecommendList />
         </div>
       </div>
+
       <div className="library">
         <div className="library-title">
           <h4>My Library</h4>

@@ -32,6 +32,7 @@ export default function CurrentlyReading() {
     <div>
       <h4>Currently Reading</h4>
       <button onClick={getReading}>Refresh</button>
+      <hr />
       {loading ? (
         <>
           <Spinner />
@@ -40,7 +41,7 @@ export default function CurrentlyReading() {
       ) : readingList.length > 0 ? (
         readingList.map(x => (
           <div className="reading-item-line" key={x._id}>
-            <ReadingItem key={x._id} data={x} />
+            <ReadingItem data={x} />
             <span>
               <button onClick={() => deleteItem(x._id)}>X</button>
             </span>

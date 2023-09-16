@@ -66,6 +66,7 @@ export default function Login() {
         onChange={e => setPassword(e.target.value)}
         label="Password"
         variant="outlined"
+        type="password"
       />
       <br />
       <br />

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { commonGetJson } from "../../shared/utils/api-helper";
-import ReviewItem from "./Reviews";
+import ReviewItem from "./ReviewItem";
 import Spinner from "../../shared/components/Spinner";
 
 //gets the reviews for all the current books in the library
@@ -10,13 +10,13 @@ export default function Reviews() {
 
   useEffect(() => {
     getReviews();
+    console.log(reviewList);
   }, []);
 
   function getReviews() {
     setLoading(true);
     commonGetJson("/reviews")
       .then(x => {
-        console.log(x);
         setReviewList(x);
       })
       .catch(e => console.log(e))
@@ -29,6 +29,7 @@ export default function Reviews() {
     <div>
       <h4>Reviews of Books on MyBookshelf</h4>
       <button onClick={getReviews}>Refresh</button>
+      <hr />
       {loading ? (
         <>
           <Spinner />
@@ -36,18 +37,8 @@ export default function Reviews() {
         </>
       ) : reviewList.length > 0 ? (
         reviewList.map(x => (
-          <div key={x._id}>
-            {x.revs.length > 0 ? (
-              <div>
-                {x.revs.map(y => (
-                  <div key={y._id}>
-                    <div className="reading-item-line">
-                      <ReviewItem key={y._id} data={y} />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : null}
+          <div className="reading-item-line" key={x._id}>
+            <ReviewItem data={x} />
           </div>
         ))
       ) : (
